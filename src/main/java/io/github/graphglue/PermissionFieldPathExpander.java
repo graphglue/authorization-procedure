@@ -4,10 +4,22 @@ import org.neo4j.graphdb.*;
 import org.neo4j.graphdb.traversal.BranchState;
 import org.neo4j.internal.helpers.collection.Iterables;
 
-class PermissionFieldPathExpander implements PathExpander {
+/**
+ * Path expander which only expands outgoing relations,
+ * and only where the permission property is set to true.
+ */
+class PermissionFieldPathExpander implements PathExpander<Object> {
 
+    /**
+     * The name of the permission property.
+     */
     private final String permission;
 
+    /**
+     * Create a new instance of this path expander.
+     *
+     * @param permission The name of the permission property.
+     */
     public PermissionFieldPathExpander(final String permission) {
         this.permission = permission;
     }
@@ -23,7 +35,7 @@ class PermissionFieldPathExpander implements PathExpander {
     }
 
     @Override
-    public PathExpander reverse() {
+    public PathExpander<Object> reverse() {
         throw new RuntimeException("Not implemented");
     }
 }

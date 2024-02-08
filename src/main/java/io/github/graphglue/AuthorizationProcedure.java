@@ -13,11 +13,24 @@ import org.neo4j.procedure.Mode;
 import org.neo4j.procedure.Name;
 import org.neo4j.procedure.Procedure;
 
+/**
+ * A procedure for finding the possible authorization paths for a given permission.
+ */
 public class AuthorizationProcedure {
 
+	/**
+	 * The current transaction.
+	 */
 	@Context
 	public Transaction tx;
 
+	/**
+	 * Find the possible authorization paths for a given permission.
+	 *
+	 * @param start The node to start the traversal from.
+	 * @param permission The permission to find the authorization paths for.
+	 * @return The possible authorization paths for a given permission.
+	 */
 	@Procedure(name = "io.github.graphglue.authorizationPath", mode = Mode.READ)
 	public Stream<AuthorizationPathResult> authorizationPath(
 			@Name("startNode") Node start,
