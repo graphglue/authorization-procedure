@@ -1,4 +1,4 @@
-FROM neo4j:5.25.1-community
+FROM neo4j:2025.01.0-community
 
 ENV NEO4J_dbms_memory_transaction_total_max 0
 
