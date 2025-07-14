@@ -17,7 +17,7 @@
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <neo4j.version>2025.02.0</neo4j.version>
+    <neo4j.version>2025.06.2</neo4j.version>
     <maven-shade-plugin.version>3.6.0</maven-shade-plugin.version>
     <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
     <maven.version>3.9.9</maven.version>
