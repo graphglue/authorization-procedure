@@ -28,10 +28,10 @@ class PermissionFieldPathExpander implements PathExpander<Object> {
     public ResourceIterable<Relationship> expand(Path path, BranchState state) {
         final Node node = path.endNode();
         final ResourceIterable<Relationship> outgoingRelationships = node.getRelationships(Direction.OUTGOING);
-        return Iterables.asResourceIterable(Iterables.filter(relationship -> {
+        return Iterables.asResourceIterable(Iterables.filter(outgoingRelationships, relationship -> {
             final Object propertyValue = relationship.getProperty(this.permission, null);
             return propertyValue != null && propertyValue.equals(true);
-        }, outgoingRelationships));
+        }));
     }
 
     @Override
