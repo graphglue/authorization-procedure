@@ -17,11 +17,15 @@
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <neo4j.version>2025.10.1</neo4j.version>
-    <maven-shade-plugin.version>3.6.1</maven-shade-plugin.version>
-    <maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
-    <maven.version>3.9.9</maven.version>
-    <maven-enforcer-plugin.version>3.6.2</maven-enforcer-plugin.version>
+    <neo4j.version>2026.06.0</neo4j.version>
+    <neo4j-java-driver.version>6.2.0</neo4j-java-driver.version>
+    <junit-jupiter.version>6.1.2</junit-jupiter.version>
+    <assertj.version>3.27.7</assertj.version>
+    <maven-shade-plugin.version>3.6.2</maven-shade-plugin.version>
+    <maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
+    <maven-surefire-plugin.version>3.5.6</maven-surefire-plugin.version>
+    <maven.version>3.9.16</maven.version>
+    <maven-enforcer-plugin.version>3.6.3</maven-enforcer-plugin.version>
   </properties>
 
   <dependencies>
@@ -35,6 +39,33 @@
       <artifactId>neo4j</artifactId>
       <version>${neo4j.version}</version>
       <scope>provided</scope>
+    </dependency>
+
+    <!-- Test only: spins up an embedded Neo4j instance with this procedure
+         registered, so the procedure is exercised against the real runtime. -->
+    <dependency>
+      <groupId>org.neo4j.test</groupId>
+      <artifactId>neo4j-harness</artifactId>
+      <version>${neo4j.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.neo4j.driver</groupId>
+      <artifactId>neo4j-java-driver</artifactId>
+      <version>${neo4j-java-driver.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>${junit-jupiter.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>${assertj.version}</version>
+      <scope>test</scope>
     </dependency>
 
   </dependencies>
@@ -67,6 +98,16 @@
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${maven-compiler-plugin.version}</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven-surefire-plugin.version}</version>
+        <configuration>
+          <!-- The embedded Neo4j instance writes its logging config and store
+               files to the temp directory; keep those inside the build
+               directory so `mvn clean` removes them. -->
+          <argLine>-Djava.io.tmpdir=${project.build.directory}</argLine>
+        </configuration>
       </plugin>
       <plugin>
         <!-- This generates a jar-file with our procedure code,
